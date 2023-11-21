@@ -1,15 +1,15 @@
-import React from 'react';
+import React from "react";
 import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
-  NativeModules
-} from 'react-native';
+  NativeModules,
+} from "react-native";
 
 const { StatusBarManager } = NativeModules;
 
 let statusBarHeight = 0;
-if (Platform.OS === 'ios') {
+if (Platform.OS === "ios") {
   StatusBarManager.getHeight((statusBarFrameData) => {
     statusBarHeight = statusBarFrameData.height;
   });
@@ -19,15 +19,17 @@ if (Platform.OS === 'ios') {
 // Magic number but is necessary to work properly
 const IOS_OFFSET = 44;
 
-const getVerticalOffset = () => Platform.select({
-  ios: statusBarHeight + IOS_OFFSET,
-  android: 0
-});
+const getVerticalOffset = () =>
+  Platform.select({
+    // ios: statusBarHeight + IOS_OFFSET,
+    ios: 0,
+    android: 0,
+  });
 
 const KeyboardStickyView = ({ style, children, ...other }) => (
   <KeyboardAvoidingView
     style={[styles.container, style]}
-    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    behavior={Platform.OS === "ios" ? "padding" : "height"}
     keyboardVerticalOffset={getVerticalOffset()}
     {...other} // can receive other view props
   >
@@ -37,11 +39,11 @@ const KeyboardStickyView = ({ style, children, ...other }) => (
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
-    width: '100%',
-    alignItems: 'center'
-  }
+    width: "100%",
+    alignItems: "center",
+  },
 });
 
 export default KeyboardStickyView;
